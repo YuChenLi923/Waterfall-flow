@@ -33,9 +33,9 @@ function createWaterFall(waterNum){
 	window.onscroll=function(e){
 		var event=e||window.event;
 		var scrollTop = window.pageYOffset|| document.documentElement.scrollTop || document.body.scrollTop;
-		var viewHeight = document.documentElement.clientHeight;
+		var viewHeight =Math.min(document.documentElement.scrollHeight,document.documentElement.clientHeight);
 		var docHeight=Math.max(document.documentElement.scrollHeight,document.documentElement.clientHeight);
-		if((scrollTop-docHeight+viewHeight)>=0){
+		if((scrollTop-docHeight+viewHeight)>=-1){
 			creatWater(data.length-num-columns*2>0?columns*2:data.length-num);
 			warterFall(num);
 		}
@@ -59,7 +59,6 @@ function createWaterFall(waterNum){
 			if(i<columns){
 				boxsH.length=columns;
 				boxsH[i]=boxs[i].offsetHeight;
-				console.log(i);
 				boxs[i].style.cssText='position:absolute;top:0px;left:'+(i*boxW)+'px;';
 				flag=0;
 			}
