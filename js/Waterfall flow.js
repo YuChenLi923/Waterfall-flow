@@ -1,37 +1,15 @@
-function addEvent(func){
-	var oldEvent=window.onload;
-	if(oldEvent=='undefined')
-		window.onload=func();
-	else
-		window.onload=function(){
-			func;
-			oldEvent;
-		};
-}
-function getByClass(Parent,Class)
-{
-	var classNodes=new Array();
-	var nodes=Parent.getElementsByTagName('*');
-	for(var i=0;i<nodes.length;i++){
-		if(nodes[i].className==Class){
-			classNodes.push(nodes[i]);
-		}
-	}
-	return classNodes;
-}
 function createWaterFall(waterNum){
 	var flag=1,
 		i,
-		warp=document.getElementById('warp'),
+		warp=getElement(document,'#warp',false),
 		num=0,
 		columns;
 	creatWater(waterNum);
 	warterFall(num);
-	window.onresize=function(){
+	addEvent(window,'resize',function(){
 		warterFall(num);
-	}
-	window.onscroll=function(e){
-		var event=e||window.event;
+	});
+	addEvent(window,'scroll',function(e){
 		var scrollTop = window.pageYOffset|| document.documentElement.scrollTop || document.body.scrollTop;
 		var viewHeight =Math.min(document.documentElement.scrollHeight,document.documentElement.clientHeight);
 		var docHeight=Math.max(document.documentElement.scrollHeight,document.documentElement.clientHeight);
@@ -39,7 +17,7 @@ function createWaterFall(waterNum){
 			creatWater(data.length-num-columns*2>0?columns*2:data.length-num);
 			warterFall(num);
 		}
-	};
+	});
 	function findMinIndex(boxsH,columns){
 			var main=Math.min.apply(null,boxsH);
 			for(var t=0;t<columns;t++){
@@ -50,7 +28,7 @@ function createWaterFall(waterNum){
 	}	
 	function warterFall(curNum){
 		var i=0,
-			boxs=getByClass(warp,'box'),
+			boxs=getElement(warp,'.box',false),
 			winWidth=window.innerWidth||document.body.clientWidth,
 			boxW=boxs[0].offsetWidth;
 			columns=Math.floor(warp.offsetWidth/boxW);
@@ -87,4 +65,4 @@ function createWaterFall(waterNum){
 		}
 	}
 };
-addEvent(createWaterFall(10));	
+createWaterFall(10);	
